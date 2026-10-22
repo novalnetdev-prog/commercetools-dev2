@@ -1,0 +1,243 @@
+deployAs:
+  - name: enabler
+    applicationType: assets
+  - name: processor
+    applicationType: service
+    endpoint: /
+    scripts:
+      postDeploy: npm install && npm run connector:post-deploy
+      preUndeploy: npm install && npm run connector:pre-undeploy
+    configuration:
+      standardConfiguration:
+        - key: CTP_PROJECT_KEY
+          description: "commercetools project key"
+          required: true
+        - key: CTP_CLIENT_ID
+          description: "commercetools client ID with manage_payments, manage_orders, manage_types, view_sessions, view_api_clients, view_customers, manage_checkout_payment_intents & introspect_oauth_tokens scopes"
+          required: true
+        - key: CTP_AUTH_URL
+          description: "commercetools Auth URL"
+          required: true
+          default: "https://auth.europe-west1.gcp.commercetools.com"
+        - key: CTP_API_URL
+          description: "commercetools API URL"
+          required: true
+          default: "https://api.europe-west1.gcp.commercetools.com"
+        - key: CTP_SESSION_URL
+          description: "commercetools Session URL"
+          required: true
+          default: "https://session.europe-west1.gcp.commercetools.com"
+        - key: CTP_JWKS_URL
+          description: "JWKs url"
+          required: true
+          default: "https://mc-api.europe-west1.gcp.commercetools.com/.well-known/jwks.json"
+        - key: CTP_JWT_ISSUER
+          description: "JWT Issuer for jwt validation"
+          required: true
+          default: "https://mc-api.europe-west1.gcp.commercetools.com"
+        - key: NOVALNET_PRODUCT_ACTIVATION_KEY
+          description: Your product activation key is a unique token for merchant authentication and payment processing. Get your Product activation key from the Novalnet Admin Portal `:` Projects > Choose your project > API credentials > API Signature 
+          required: true
+        - key: NOVALNET_TARIFF_KEY
+          description: Enter a Tariff ID to match the preferred tariff plan you created at the Novalnet Admin Portal for this project.
+          required: true
+        - key: NOVALNET_CLIENT_KEY
+          description: Novalnet client key
+          required: true
+        - key: NOVALNET_WEBHOOK_TEST_MODE
+          description: Novalnet webhook Test mode for webhook notifications (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_INVOICE_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_INVOICE_DUE_DATE
+          description: Number of days given to the buyer to transfer the amount to Novalnet (must be greater than 7 days). If this field is left blank, 14 days will be set as due date by default (Default=14, Min=8)
+          required: false
+          default: "14"
+        - key: NOVALNET_INVOICE_PAYMENT_ACTION
+          description: Choose whether or not the payment should be charged immediately. Capture completes the transaction by transferring the funds from buyer account to merchant account. Authorize verifies payment details and reserves funds to capture it later, giving time for the merchant to decide on the order (payment/authorize)
+          required: true
+        - key: NOVALNET_INVOICE_PAYMENT_ACTION_MINIMUM_AMOUNT
+          description: In case the order amount exceeds the mentioned limit, the transaction will be set on-hold till your confirmation of the transaction. Configure Authorize as payment action and leave the field empty if you wish to process all the transactions as on-hold. (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)
+        - key: NOVALNET_GUARANTEED_INVOICE_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          default: "0"
+          required: false
+        - key: NOVALNET_GUARANTEED_INVOICE_FORCE_NON_GUARANTEED_PAYMENT
+          description: Even if payment guarantee is enabled, payments will still be processed as non-guarantee payments if the payment guarantee requirements are not met. Review the requirements under "Enable Payment Guarantee" in the Installation Guide. (1=Enable, 0=Disable)
+          required: false
+          default: "0"
+        - key: NOVALNET_GUARANTEED_INVOICE_PAYMENT_ACTION
+          description: Choose whether or not the payment should be charged immediately. Capture completes the transaction by transferring the funds from buyer account to merchant account. Authorize verifies payment details and reserves funds to capture it later, giving time for the merchant to decide on the order (payment/authorize)
+          required: true
+        - key: NOVALNET_GUARANTEED_INVOICE_PAYMENT_ACTION_MINIMUM_AMOUNT
+          description: In case the order amount exceeds the mentioned limit, the transaction will be set on-hold till your confirmation of the transaction. Configure Authorize as payment action and leave the field empty if you wish to process all the transactions as on-hold. (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)
+          required: false
+        - key: NOVALNET_GUARANTEED_INVOICE_MINIMUM_ORDER_AMOUNT
+          description: Enter the minimum amount (in cents) for the transaction to be processed with payment guarantee. For example, enter 100 which is equal to 1,00. By default, the amount will be 9,99 EUR (Default=999)
+          required: false
+          default: "999"
+        - key: NOVALNET_GUARANTEED_SEPA_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_GUARANTEED_SEPA_FORCE_NON_GUARANTEED_PAYMENT
+          description: Even if payment guarantee is enabled, payments will still be processed as non-guarantee payments if the payment guarantee requirements are not met. Review the requirements under "Enable Payment Guarantee" in the Installation Guide. (1=Enable, 0=Disable)
+          required: false
+          default: "0"
+        - key: NOVALNET_GUARANTEED_SEPA_PAYMENT_ACTION
+          description: Choose whether or not the payment should be charged immediately. Capture completes the transaction by transferring the funds from buyer account to merchant account. Authorize verifies payment details and reserves funds to capture it later, giving time for the merchant to decide on the order (payment/authorize)
+          required: true
+        - key: NOVALNET_GUARANTEED_SEPA_PAYMENT_ACTION_MINIMUM_AMOUNT
+          description: In case the order amount exceeds the mentioned limit, the transaction will be set on-hold till your confirmation of the transaction. Configure Authorize as payment action and leave the field empty if you wish to process all the transactions as on-hold. (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)
+          required: false
+        - key: NOVALNET_GUARANTEED_SEPA_MINIMUM_ORDER_AMOUNT
+          description: Enter the minimum amount (in cents) for the transaction to be processed with payment guarantee. For example, enter 100 which is equal to 1,00. By default, the amount will be 9,99 EUR (Default=999)
+          required: false
+          default: "999"
+        - key: NOVALNET_PREPAYMENT_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_PREPAYMENT_DUE_DATE
+          description: Number of days given to the buyer to transfer the amount to Novalnet (must be between 7 and 28 days). If this field is left blank, 14 days will be set as due date by default. (Default=14, Min=8, Max=28)
+          required: false
+          default: "14"
+        - key: NOVALNET_SEPA_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_SEPA_DUE_DATE
+          description: Enter the number of days after which the payment should be processed (must be between 3 and 14 days) (Default=3, Min=3, Max=7)
+          required: false
+          default: "3"
+        - key: NOVALNET_SEPA_PAYMENT_ACTION
+          description: Choose whether or not the payment should be charged immediately. Capture completes the transaction by transferring the funds from buyer account to merchant account. Authorize verifies payment details and reserves funds to capture it later, giving time for the merchant to decide on the order (payment/authorize)
+          required: true
+        - key: NOVALNET_SEPA_PAYMENT_ACTION_MINIMUM_AMOUNT
+          description: In case the order amount exceeds the mentioned limit, the transaction will be set on-hold till your confirmation of the transaction. Configure Authorize as payment action and leave the field empty if you wish to process all the transactions as on-hold. (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)
+          required: false
+        - key: NOVALNET_CREDITCARD_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_CREDITCARD_PAYMENT_ACTION
+          description: Choose whether or not the payment should be charged immediately. Capture completes the transaction by transferring the funds from buyer account to merchant account. Authorize verifies payment details and reserves funds to capture it later, giving time for the merchant to decide on the order (payment/authorize)
+          required: true
+        - key: NOVALNET_CREDITCARD_PAYMENT_ACTION_MINIMUM_AMOUNT
+          description: In case the order amount exceeds the mentioned limit, the transaction will be set on-hold till your confirmation of the transaction. Configure Authorize as payment action and leave the field empty if you wish to process all the transactions as on-hold. (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)
+          required: false
+        - key: NOVALNET_CREDITCARD_ENFORCE_3D_SECURE_PAYMENT_OUTSIDE_EU
+          description: By enabling this option, all payments from cards issued outside the EU will be authenticated via 3DS 2.0 SCA (1=Enable, 0=Disable)
+          required: false
+          default: "0"
+        - key: NOVALNET_CREDITCARD_DISPLAY_INLINE_CREDITCARD_FORM
+          description: The following fields will be shown in the checkout in two lines`:` card holder & credit card number/expiry date / CVC (1=Enable, 0=Disable)
+          required: false
+          default: "0"
+        - key: NOVALNET_PAYPAL_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_PAYPAL_PAYMENT_ACTION
+          description: Choose whether or not the payment should be charged immediately. Capture completes the transaction by transferring the funds from buyer account to merchant account. Authorize verifies payment details and reserves funds to capture it later, giving time for the merchant to decide on the order (payment/authorize)
+          required: true
+        - key: NOVALNET_PAYPAL_PAYMENT_ACTION_MINIMUM_AMOUNT
+          description: In case the order amount exceeds the mentioned limit, the transaction will be set on-hold till your confirmation of the transaction. Configure Authorize as payment action and leave the field empty if you wish to process all the transactions as on-hold. (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)
+          required: false
+        - key: NOVALNET_ACH_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_MULTIBANCO_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_ALIPAY_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_BANCONTACT_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_BLIK_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_IDEAL_TEST_MODE
+          description: The iDEAL | Wero payment will be processed in test mode (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_EPS_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_MBWAY_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_ONLINE_BANK_TRANSFER_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_POSTFINANCE_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_POSTFINANCE_CARD_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_PRZELEWY24_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_TRUSTLY_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_TWINT_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_WECHATPAY_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_PIX_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_BOLETO_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_BIZUM_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_BANCOMAT_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_KAKAOPAY_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: NOVALNET_NAVERPAY_TEST_MODE
+          description: The payment will be processed in the test mode therefore amount for this transaction will not be charged (1=Test, 0=Live)
+          required: false
+          default: "0"
+        - key: MERCHANT_RETURN_URL
+          description: Merchant return URL for payment completion
+          required: false
+      securedConfiguration:
+        - key: NOVALNET_PAYMENT_ACCESS_KEY
+          description: Your secret key used to encrypt the data to avoid user manipulation and fraud. Get your Payment access key from the Novalnet Admin Portal Projects > Choose your project > API credentials > Payment access key
+          required: true
+        - key: CTP_CLIENT_SECRET
+          description: "commercetools client secret"
+          required: true
